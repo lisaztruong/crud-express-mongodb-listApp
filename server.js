@@ -7,6 +7,8 @@ var MongoClient = require('mongodb').MongoClient;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(bodyParser.json());
 
 // connect to server only when database is connected
 var db;
@@ -41,9 +43,7 @@ app.post('/quotes', (req,res) => {
   })
 })
 
-app.use(express.static('public'));
 
-app.use(bodyParser.join());
 
 app.put('/quotes', (req,res) => {
   db.collection('quotes')
@@ -63,35 +63,6 @@ app.put('/quotes', (req,res) => {
   })
 })
 
-fetch({ /* request */ })
-.then(res => {
-  if (res.ok) return res.json()
-})
-.then(data => {
-  console.log(data)
-  window.location.reload(true)
-})
-
-var del = document.getElementById('delete')
-
-del.addEventListener('click', function () {
-  fetch('quotes', {
-    method: 'delete',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      'name': 'Woodstick'
-    })
-  })
-  .then(res => {
-    if (res.ok) return res.json()
-  }).
-  then(data => {
-    console.log(data)
-    window.location.reload()
-  })
-})
 
 app.delete('/quotes', (req, res) => {
   db.collection('quotes').findOneAndDelete({name: req.body.name},
@@ -99,13 +70,4 @@ app.delete('/quotes', (req, res) => {
     if (err) return res.send(500, err)
     res.send('A Woodstock quote got deleted')
   })
-})
-
-fetch({ /* request */ })
-.then(res => {
-  if (res.ok) return res.json()
-})
-.then(data => {
-  console.log(data)
-  window.location.reload(true)
 })
